@@ -1,6 +1,6 @@
 [package]
 name = "pgat"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Geordon Worley <vadixidav@gmail.com>"]
 description = "Proxy GAT: Abstractions for generic proxy views with GAT to enable generic container types"
