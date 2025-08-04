@@ -14,7 +14,8 @@ pub type Owned<P> = <P as ProxyView>::Owned;
 /// A type generator that produces a view type for a given lifetime.
 ///
 /// The owned value associated with the proxy is required to outlive any borrow lifetime,
-/// so it's type must be known when this trait is implemented.
+/// so it's type must be known when this trait is implemented. You also need to implement
+/// the [`ViewInverse`] trait for the view type, which allows you to obtain the proxy from the view.
 ///
 /// It also provides a static method to generate a view from a reference to an owned value,
 /// though views may be generated in alternative ways. The view must always be generatable
@@ -29,11 +30,27 @@ pub trait ProxyView {
 
     /// The borrowed view type for a given lifetime.
     /// `Self::Owned` must outlive the borrow lifetime to ensure safety.
-    type View<'a>
+    type View<'a>: ViewInverse<'a, Proxy = Self, Owned = Self::Owned>
     where
         Self::Owned: 'a;
 
     fn view<'a>(owned: &'a Self::Owned) -> Self::View<'a>;
+}
+
+/// This trait is implemented for all view types and allows obtaining the proxy that produces this view.
+/// It can be used by abstract containers to infer the proxy type from the view type to allow the user to
+/// directly name the view type instead of the proxy type. This is only possible because a view type always
+/// has a unique proxy type associated with it, which is the one that produces the view. This also means
+/// that the definition of these two traits mutually requires both to be defined simultaneously for any
+/// view and proxy pair.
+pub trait ViewInverse<'a> {
+    type Owned: 'a;
+    type Proxy: ProxyView<View<'a> = Self, Owned = Self::Owned>;
+}
+
+impl<'a, T> ViewInverse<'a> for &'a T {
+    type Owned = T;
+    type Proxy = ReferenceProxy<T>;
 }
 
 /// Provides a generic way to clone owned values from arbitrary proxies.
