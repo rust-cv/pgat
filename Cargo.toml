@@ -1,0 +1,15 @@
+[package]
+name = "pgat"
+version = "0.1.0"
+edition = "2024"
+authors = ["Geordon Worley <vadixidav@gmail.com>"]
+description = "Proxy GAT: Abstractions for generic proxy views with GAT to enable generic container types"
+documentation = "https://docs.rs/pgat/"
+repository = "https://github.com/rust-cv/pgat"
+keywords = ["proxy", "view", "gat", "reference", "container"]
+categories = ["no-std", "computer-vision", "data-structures"]
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+doc-comment = "0.3.3"
