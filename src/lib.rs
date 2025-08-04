@@ -43,7 +43,7 @@ pub trait ProxyView {
 /// has a unique proxy type associated with it, which is the one that produces the view. This also means
 /// that the definition of these two traits mutually requires both to be defined simultaneously for any
 /// view and proxy pair.
-pub trait ViewInverse<'a> {
+pub trait ViewInverse<'a>: Copy {
     type Owned: 'a;
     type Proxy: ProxyView<View<'a> = Self, Owned = Self::Owned>;
 }
