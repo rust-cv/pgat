@@ -8,6 +8,9 @@ use core::marker::PhantomData;
 /// A convenience type alias to get a view from a proxy and a lifetime.
 pub type View<'a, P> = <P as ProxyView>::View<'a>;
 
+/// A convenience type alias to get an owned value from a proxy.
+pub type Owned<P> = <P as ProxyView>::Owned;
+
 /// A type generator that produces a view type for a given lifetime.
 ///
 /// The owned value associated with the proxy is required to outlive any borrow lifetime,
